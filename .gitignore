@@ -1,1 +1,4 @@
 matcher_server/node_modules
+client-frontend/node_modules
+socket_server/node_modules
+template-hello-next/node_modules
