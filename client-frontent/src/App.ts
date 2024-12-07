@@ -138,20 +138,49 @@ export default class App {
   }
 
   async feed_to_client_caller(): Promise<number> {
-    let insurance_profiles = {
-      // id: 1,
-      min_age: 20,
-      max_age: 30,
-      min_height: 170,
-      max_height: 180,
-      min_weight: 60,
-      max_weight: 80,
-      // bloodGroup: ["B+"],
-      // gender: ["female"],
-    };
+    let insurance_profiles = [
+      {
+        min_age: 20,
+        max_age: 30,
+        min_height: 165,
+        max_height: 180,
+        min_weight: 60,
+        max_weight: 80,
+      },
+      // for old ppl
+      {
+        min_age: 55,
+        max_age: 70,
+        min_height: 165,
+        max_height: 180,
+        min_weight: 60,
+        max_weight: 80,
+      },
+      // for kids
+      {
+        min_age: 4,
+        max_age: 8,
+        min_height: 85,
+        max_height: 140,
+        min_weight: 60,
+        max_weight: 80,
+      },
+    ];
     console.log("feedign insurance_profiles", insurance_profiles);
 
-    return await this.feed_to_client(insurance_profiles);
+    let results: number[] = [];
+
+    insurance_profiles.forEach(async (insurance) => {
+      let res = await this.feed_to_client(insurance);
+      console.log("res: ", res);
+      results.push(res);
+    });
+
+    console.log("results: ", results);
+
+    return 0;
+
+    // return await this.feed_to_client(insurance_profiles[0]);
   }
 
   // "min_age", "max_age", "min_height", "max_height", "min_weight", "max_weight"
