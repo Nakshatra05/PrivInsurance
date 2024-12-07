@@ -1,16 +1,16 @@
-import { io, Socket } from 'socket.io-client';
+import { io, Socket } from "socket.io-client";
 import AsyncQueue from "./AsyncQueue";
 import assert from "./assert";
 import generateProtocol from "./generateProtocol";
 
 // Define your interface for the health profile
-interface PersonHealthProfile {
-  age: number;
-  height: number;
-  weight: number;
-  gender: "male" | "female" | "other";
-  bloodGroup: string;
-}
+// interface PersonHealthProfile {
+//   age: number;
+//   height: number;
+//   weight: number;
+//   gender: "male" | "female" | "other";
+//   bloodGroup: string;
+// }
 
 export default class App {
   socket?: Socket; // Replace RtcPairSocket with Socket from socket.io
@@ -29,21 +29,21 @@ export default class App {
 
   async connect(code: string, party: "alice" | "bob") {
     this.party = party;
-    const socket = io('http://localhost:3000'); // Connect to socket.io server
+    const socket = io("http://localhost:3000"); // Connect to socket.io server
     this.socket = socket;
 
-    socket.on('message', (msg: unknown) => {
+    socket.on("message", (msg: unknown) => {
       // Using a message queue instead of passing messages directly ensures no message is missed
       this.msgQueue.push(msg);
     });
 
     // Emit a joining message to the server
-    socket.emit('join', { code, party });
+    socket.emit("join", { code, party });
 
     // Wait for the connection to be established
     await new Promise<void>((resolve, reject) => {
-      socket.on('connect', resolve);
-      socket.on('error', reject);
+      socket.on("connect", resolve);
+      socket.on("error", reject);
     });
   }
 
@@ -76,7 +76,7 @@ export default class App {
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
-      socket?.emit('message', msg); // Use socket.emit to send the message
+      socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
     this.msgQueue.stream((msg: unknown) => {
@@ -135,7 +135,7 @@ export default class App {
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
-      socket?.emit('message', msg); // Use socket.emit to send the message
+      socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
     this.msgQueue.stream((msg: unknown) => {
