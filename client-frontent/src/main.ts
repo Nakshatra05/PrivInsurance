@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
       max_weight: 80,
     };
     console.log("manuel feeding to client");
-    
+
     app.feed_to_client(insurance_profiles);
   });
 
@@ -252,9 +252,9 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleInsuranceBtn.addEventListener("click", async () => {
     // insurance
     // connect
-    await app.connect("1", "bob");
     insuranceForm.classList.remove("hidden");
     userForm.classList.add("hidden");
+    await app.connect("1", "bob");
     app.listen_for_user();
   });
 
@@ -262,9 +262,9 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleUserBtn.addEventListener("click", async () => {
     // user
     // connect user
-    await app.connect("0", "alice");
     insuranceForm.classList.add("hidden");
     userForm.classList.remove("hidden");
+    await app.connect("0", "alice");
   });
 
   insuranceFormElement.addEventListener("submit", (event) => {
