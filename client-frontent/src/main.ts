@@ -1,6 +1,6 @@
 import App from "./App";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:3000"); // Adjust to your server URL
+// import { io } from "socket.io-client";
+// const socket = io("http://localhost:3000"); // Adjust to your server URL
 document.addEventListener("DOMContentLoaded", () => {
   // Create container div
   const container = document.createElement("div");
@@ -45,39 +45,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const ageMinInput = document.createElement("input");
   ageMinInput.type = "number";
   ageMinInput.placeholder = "Min Age";
-  ageMinInput.required = true;
+  // ageMinInput.required = true;
   insuranceFormElement.appendChild(ageMinInput);
 
   const ageMaxInput = document.createElement("input");
   ageMaxInput.type = "number";
   ageMaxInput.placeholder = "Max Age";
-  ageMaxInput.required = true;
+  // ageMaxInput.required = true;
   insuranceFormElement.appendChild(ageMaxInput);
 
   // Height: Min and Max inputs
   const heightMinInput = document.createElement("input");
   heightMinInput.type = "number";
   heightMinInput.placeholder = "Min Height (cm)";
-  heightMinInput.required = true;
+  // heightMinInput.required = true;
   insuranceFormElement.appendChild(heightMinInput);
 
   const heightMaxInput = document.createElement("input");
   heightMaxInput.type = "number";
   heightMaxInput.placeholder = "Max Height (cm)";
-  heightMaxInput.required = true;
+  // heightMaxInput.required = true;
   insuranceFormElement.appendChild(heightMaxInput);
 
   // Weight: Min and Max inputs
   const weightMinInput = document.createElement("input");
   weightMinInput.type = "number";
   weightMinInput.placeholder = "Min Weight (kg)";
-  weightMinInput.required = true;
+  // weightMinInput.required = true;
   insuranceFormElement.appendChild(weightMinInput);
 
   const weightMaxInput = document.createElement("input");
   weightMaxInput.type = "number";
   weightMaxInput.placeholder = "Max Weight (kg)";
-  weightMaxInput.required = true;
+  // weightMaxInput.required = true;
   insuranceFormElement.appendChild(weightMaxInput);
 
   // Gender: Dropdown
@@ -143,21 +143,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const userAgeInput = document.createElement("input");
   userAgeInput.type = "number";
   userAgeInput.placeholder = "Age";
-  userAgeInput.required = true;
+  // userAgeInput.required = true;
   userFormElement.appendChild(userAgeInput);
 
   // Height Input
   const userHeightInput = document.createElement("input");
   userHeightInput.type = "number";
   userHeightInput.placeholder = "Height (cm)";
-  userHeightInput.required = true;
+  // userHeightInput.required = true;
   userFormElement.appendChild(userHeightInput);
 
   // Weight Input
   const userWeightInput = document.createElement("input");
   userWeightInput.type = "number";
   userWeightInput.placeholder = "Weight (kg)";
-  userWeightInput.required = true;
+  // userWeightInput.required = true;
   userFormElement.appendChild(userWeightInput);
 
   // Gender: Dropdown
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const exerciseDurationInput = document.createElement("input");
   exerciseDurationInput.type = "number";
   exerciseDurationInput.placeholder = "Exercise Duration (min)";
-  exerciseDurationInput.required = true;
+  // exerciseDurationInput.required = true;
   userFormElement.appendChild(exerciseDurationInput);
 
   // Submit Button
@@ -205,6 +205,31 @@ document.addEventListener("DOMContentLoaded", () => {
   userSubmitButton.type = "submit";
   userSubmitButton.textContent = "Submit User";
   userFormElement.appendChild(userSubmitButton);
+
+  userSubmitButton.addEventListener("click", async () => {
+    // trigger mpc call
+
+    let user_health_profile = {
+      age: 25,
+      height: 180,
+      weight: 70,
+    };
+    app.find_insurar(user_health_profile);
+  });
+
+  insuranceSubmitButton.addEventListener("click", async () => {
+    console.log("insurance submit button clicked");
+
+    let insurance_profiles = {
+      min_age: 20,
+      max_age: 30,
+      min_height: 170,
+      max_height: 180,
+      min_weight: 60,
+      max_weight: 80,
+    };
+    app.feed_to_client(insurance_profiles);
+  });
 
   userForm.appendChild(userFormElement);
 
@@ -219,19 +244,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // Append the container to the body
   document.body.appendChild(container);
 
+  const app = new App();
+
   // Event listener to show Insurance form and hide User form
-  toggleInsuranceBtn.addEventListener("click", () => {
+  toggleInsuranceBtn.addEventListener("click", async () => {
+    // insurance
+    // connect
+    await app.connect("1", "bob");
     insuranceForm.classList.remove("hidden");
     userForm.classList.add("hidden");
   });
 
   // Event listener to show User form and hide Insurance form
-  toggleUserBtn.addEventListener("click", () => {
+  toggleUserBtn.addEventListener("click", async () => {
+    // user
+    // connect user
+    await app.connect("0", "alice");
     insuranceForm.classList.add("hidden");
     userForm.classList.remove("hidden");
   });
 
+  insuranceFormElement.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent form submission
+  });
+
   // Event listener for Insurance Form submission
+  /*
   insuranceFormElement.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form submission
 
@@ -245,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gender: genderSelect.value,
       bloodGroup: bloodGroupSelect.value,
     };
-    socket.emit("submitInsuranceData", data);
+    // socket.emit("submitInsuranceData", data);
 
     let resultDiv = document.getElementById("resultDiv");
     if (!resultDiv) {
@@ -266,8 +304,14 @@ document.addEventListener("DOMContentLoaded", () => {
       Gender: ${data.gender}
       Blood Group: ${data.bloodGroup}`);
   });
+  */
+
+  userFormElement.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent form submission
+  });
 
   // Event listener for User Form submission with `find_insurar`
+  /*
   userFormElement.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent form submission
 
@@ -280,18 +324,18 @@ document.addEventListener("DOMContentLoaded", () => {
       exerciseFrequency: exerciseFrequencySelect.value,
       exerciseDuration: Number(exerciseDurationInput.value),
     };
-    socket.emit("submitUserData", data);
+    // socket.emit("submitUserData", data);
 
     // resultDiv.innerHTML = `<p>Sending user data...</p>`;
 
     // Listen for the server response for user data
-    socket.on("userResponse", (response) => {
-      let resultDiv = document.getElementById("resultDiv") as HTMLDivElement;
-      resultDiv.innerHTML = `
-      <h3>User Response:</h3>
-      <p>${response}</p>
-    `;
-    });
+    // socket.on("userResponse", (response) => {
+    //   let resultDiv = document.getElementById("resultDiv") as HTMLDivElement;
+    //   resultDiv.innerHTML = `
+    //   <h3>User Response:</h3>
+    //   <p>${response}</p>
+    // `;
+    // });
 
     // Call the `find_insurar` function
     try {
@@ -327,4 +371,5 @@ document.addEventListener("DOMContentLoaded", () => {
       Exercise Frequency: ${data.exerciseFrequency}
       Exercise Duration: ${data.exerciseDuration} min`);
   });
+  */
 });

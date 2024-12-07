@@ -29,7 +29,7 @@ export default class App {
 
   async connect(code: string, party: "alice" | "bob") {
     this.party = party;
-    const socket = io("http://localhost:3000"); // Connect to socket.io server
+    const socket = io("http://localhost:3000", { query: { party } });
     this.socket = socket;
 
     socket.on("message", (msg: unknown) => {
@@ -76,6 +76,7 @@ export default class App {
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
+
       socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
