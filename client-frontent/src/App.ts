@@ -1,49 +1,20 @@
-import { RtcPairSocket } from "rtc-pair-socket";
+import { io, Socket } from 'socket.io-client';
 import AsyncQueue from "./AsyncQueue";
 import assert from "./assert";
 import generateProtocol from "./generateProtocol";
 
-/*
-interface InsurancePolicyProfile {
-  id: number;
-  age: {
-    min: number;
-    max: number;
-  };
-  height: {
-    min: number;
-    max: number;
-  };
-  weight: {
-    min: number;
-    max: number;
-  };
-  // gender: "male" | "female" | "other";
-  gender: [string];
-  bloodGroup: [string];
-  // bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-  // medicalConditions: [string];
-}
-
+// Define your interface for the health profile
 interface PersonHealthProfile {
   age: number;
   height: number;
   weight: number;
   gender: "male" | "female" | "other";
   bloodGroup: string;
-  // medicalConditions: [string];
-  // bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-  // exercise: {
-  //   frequency: "daily" | "weekly" | "monthly" | "rarely";
-  //   duration: number; // in minutes
-  // };
 }
-*/
 
 export default class App {
-  socket?: RtcPairSocket;
+  socket?: Socket; // Replace RtcPairSocket with Socket from socket.io
   party?: "alice" | "bob";
-  // peer?: "customer" | "provider";
 
   msgQueue = new AsyncQueue<unknown>();
 
@@ -58,30 +29,25 @@ export default class App {
 
   async connect(code: string, party: "alice" | "bob") {
     this.party = party;
-    const socket = new RtcPairSocket(code, party);
+    const socket = io('http://localhost:3000'); // Connect to socket.io server
     this.socket = socket;
 
-    socket.on("message", (msg: unknown) => {
-      // Using a message queue instead of passing messages directly to the MPC
-      // protocol ensures that we don't miss anything sent before we begin.
+    socket.on('message', (msg: unknown) => {
+      // Using a message queue instead of passing messages directly ensures no message is missed
       this.msgQueue.push(msg);
     });
 
+    // Emit a joining message to the server
+    socket.emit('join', { code, party });
+
+    // Wait for the connection to be established
     await new Promise<void>((resolve, reject) => {
-      socket.on("open", resolve);
-      socket.on("error", reject);
+      socket.on('connect', resolve);
+      socket.on('error', reject);
     });
   }
 
   async find_insurar_caller(): Promise<number> {
-    // let user_health_profile: PersonHealthProfile = {
-    //   age: 25,
-    //   height: 180,
-    //   weight: 70,
-    //   bloodGroup: "B+",
-    //   gender: "male",
-    // };
-
     let user_health_profile = {
       age: 25,
       height: 180,
@@ -103,16 +69,14 @@ export default class App {
     assert(party !== undefined, "Party must be set");
     assert(socket !== undefined, "Socket must be set");
 
-    // const input = party === "customer" ? { a: value } : { b: value };
     const input = values;
-    // const otherParty = party === "alice" ? "customer" : "provider";
     const otherParty = party === "alice" ? "bob" : "alice";
 
     const protocol = await generateProtocol();
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
-      socket.send(msg);
+      socket?.emit('message', msg); // Use socket.emit to send the message
     });
 
     this.msgQueue.stream((msg: unknown) => {
@@ -139,22 +103,18 @@ export default class App {
 
   async feed_to_client_caller(): Promise<number> {
     let insurance_profiles = {
-      // id: 1,
       min_age: 20,
       max_age: 30,
       min_height: 170,
       max_height: 180,
       min_weight: 60,
       max_weight: 80,
-      // bloodGroup: ["B+"],
-      // gender: ["female"],
     };
-    console.log("feedign insurance_profiles", insurance_profiles);
+    console.log("feeding insurance_profiles", insurance_profiles);
 
     return await this.feed_to_client(insurance_profiles);
   }
 
-  // "min_age", "max_age", "min_height", "max_height", "min_weight", "max_weight"
   async feed_to_client(values: {
     min_age: number;
     max_age: number;
@@ -169,14 +129,13 @@ export default class App {
     assert(socket !== undefined, "Socket must be set");
 
     const input = values;
-    // const otherParty = party === "customer" ? "customer" : "privider";
     const otherParty = party === "alice" ? "bob" : "alice";
 
     const protocol = await generateProtocol();
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
-      socket.send(msg);
+      socket?.emit('message', msg); // Use socket.emit to send the message
     });
 
     this.msgQueue.stream((msg: unknown) => {

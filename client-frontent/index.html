@@ -1,86 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MPC Hello</title>
-    <link rel="stylesheet" href="src/styles.css" />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Form Example</title>
+    <link rel="stylesheet" href="src/styles.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
 
-  <body>
-    <div class="app">
-      <div class="header">MPC Hello</div>
-
-      <div class="step-container">
-        <div id="step-1" class="step">
-          <div style="text-align: left">
-            Welcome to the hello-world of MPC (<a
-              href="https://github.com/cedoor/mpc-cli/tree/main/packages/template-hello-vite"
-              >view source</a
-            >).
-          </div>
-          <div style="text-align: left; margin-top: 1em">
-            To start, one party should click host. This will generate a code
-            that the other party can use to join. It's an end-to-end encrypted
-            P2P connection. There is no server.
-          </div>
-          <div style="text-align: left; margin-top: 1em">
-            Once connected, both parties will enter a number and the larger
-            number will be calculated. The smaller number is kept
-            cryptographically secret.
-          </div>
-          <div style="text-align: left; margin-top: 1em">
-            This is just a simple example, but mpc-framework makes it easy to do
-            this with any function.
-          </div>
-          <div>
-            <button id="host-btn">Host</button>&nbsp;
-            <button id="join-btn">Join</button>
-          </div>
-        </div>
-
-        <div id="step-2-host" class="step hidden">
-          <p>Joining code:</p>
-          <div id="host-code" class="code-box"></div>
-        </div>
-
-        <div id="step-2-join" class="step hidden">
-          <div>
-            <label for="join-code-input">Enter host code:</label>
-            <input type="text" id="join-code-input" />
-          </div>
-          <div id="join-submit-container">
-            <button id="join-submit-btn">Join</button>
-          </div>
-          <div id="join-spinner" class="spinner-container hidden">
-            <div class="spinner"></div>
-          </div>
-        </div>
-
-        <div id="step-3" class="step hidden">
-          <div>
-            <label for="number-input">Enter your number:</label>
-            <input type="number" id="number-input" />
-          </div>
-          <div>
-            <button id="submit-number-btn">Submit</button>
-            <button id="submit-insurar-btn">Submit insurar data</button>
-          </div>
-        </div>
-
-        <div id="step-4" class="step hidden">
-          <p>Calculating...</p>
-          <div class="spinner-container">
-            <div class="spinner"></div>
-          </div>
-        </div>
-
-        <div id="step-5" class="step hidden">
-          <h2><span id="result-value"></span></h2>
-        </div>
-      </div>
-    </div>
-
+    <script src="src/main.ts"></script> Reference to the compiled JavaScript file
     <script type="module" src="src/main.ts"></script>
-  </body>
+
+</body>
 </html>

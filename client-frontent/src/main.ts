@@ -1,117 +1,332 @@
-import App from "./App";
+import App from './App';
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:3000'); // Adjust to your server URL
+document.addEventListener("DOMContentLoaded", () => {
+  
 
-const hostBtn = document.getElementById("host-btn") as HTMLButtonElement;
-const joinCodeInput = document.getElementById(
-  "join-code-input",
-) as HTMLInputElement;
-const joinBtn = document.getElementById("join-btn") as HTMLButtonElement;
-const joinSpinner = document.getElementById("join-spinner") as HTMLDivElement;
-const joinSubmitContainer = document.getElementById(
-  "join-submit-container",
-) as HTMLDivElement;
-const joinSubmitBtn = document.getElementById(
-  "join-submit-btn",
-) as HTMLButtonElement;
-const numberInput = document.getElementById("number-input") as HTMLInputElement;
-const submitNumberBtn = document.getElementById(
-  "submit-number-btn",
-) as HTMLButtonElement;
+  // Create container div
+  const container = document.createElement("div");
+  container.classList.add("container");
 
-const submitInsurarBtn = document.getElementById(
-  "submit-insurar-btn",
-) as HTMLButtonElement;
+  // Create the toggle container
+  const toggleContainer = document.createElement("div");
+  toggleContainer.classList.add("toggle-container");
 
-const step1 = document.getElementById("step-1") as HTMLDivElement;
-const step2Host = document.getElementById("step-2-host") as HTMLDivElement;
-const step2Join = document.getElementById("step-2-join") as HTMLDivElement;
-const step3 = document.getElementById("step-3") as HTMLDivElement;
-const step4 = document.getElementById("step-4") as HTMLDivElement;
-const step5 = document.getElementById("step-5") as HTMLDivElement;
+  // Create Insurance button
+  const toggleInsuranceBtn = document.createElement("button");
+  toggleInsuranceBtn.textContent = "Insurance";
+  toggleInsuranceBtn.classList.add("toggle-button");
+  toggleInsuranceBtn.id = "toggleInsuranceBtn";
 
-const hostCodeElement = document.getElementById("host-code") as HTMLDivElement;
-const resultValueElement = document.getElementById(
-  "result-value",
-) as HTMLSpanElement;
+  // Create User button
+  const toggleUserBtn = document.createElement("button");
+  toggleUserBtn.textContent = "User";
+  toggleUserBtn.classList.add("toggle-button");
+  toggleUserBtn.id = "toggleUserBtn";
 
-// let myNumber: number | null = null;
+  // Append buttons to toggle container
+  toggleContainer.appendChild(toggleInsuranceBtn);
+  toggleContainer.appendChild(toggleUserBtn);
 
-const app = new App();
+  // Create form container
+  const formContainer = document.createElement("div");
+  formContainer.classList.add("form-container");
 
-async function handleHost() {
-  const code = app.generateJoiningCode();
-  hostCodeElement.textContent = code;
+  // Create the insurance form div
+  const insuranceForm = document.createElement("div");
+  insuranceForm.id = "insuranceForm";
+  insuranceForm.classList.add("hidden");
 
-  step1.classList.add("hidden");
-  step2Host.classList.remove("hidden");
+  const insuranceTitle = document.createElement("h2");
+  insuranceTitle.textContent = "Insurance Form";
+  insuranceForm.appendChild(insuranceTitle);
 
-  await app.connect(code, "alice");
+  const insuranceFormElement = document.createElement("form");
 
-  step2Host.classList.add("hidden");
-  step3.classList.remove("hidden");
-}
+  // Age: Min and Max inputs
+  const ageMinInput = document.createElement("input");
+  ageMinInput.type = "number";
+  ageMinInput.placeholder = "Min Age";
+  ageMinInput.required = true;
+  insuranceFormElement.appendChild(ageMinInput);
 
-async function handleJoin() {
-  step1.classList.add("hidden");
-  step2Join.classList.remove("hidden");
-}
+  const ageMaxInput = document.createElement("input");
+  ageMaxInput.type = "number";
+  ageMaxInput.placeholder = "Max Age";
+  ageMaxInput.required = true;
+  insuranceFormElement.appendChild(ageMaxInput);
 
-async function handleJoinSubmit() {
-  const joinCodeInput = document.getElementById(
-    "join-code-input",
-  ) as HTMLInputElement;
-  const code = joinCodeInput.value;
+  // Height: Min and Max inputs
+  const heightMinInput = document.createElement("input");
+  heightMinInput.type = "number";
+  heightMinInput.placeholder = "Min Height (cm)";
+  heightMinInput.required = true;
+  insuranceFormElement.appendChild(heightMinInput);
 
-  joinSpinner.classList.remove("hidden");
-  joinSubmitContainer.classList.add("hidden");
+  const heightMaxInput = document.createElement("input");
+  heightMaxInput.type = "number";
+  heightMaxInput.placeholder = "Max Height (cm)";
+  heightMaxInput.required = true;
+  insuranceFormElement.appendChild(heightMaxInput);
 
-  await app.connect(code, "bob");
+  // Weight: Min and Max inputs
+  const weightMinInput = document.createElement("input");
+  weightMinInput.type = "number";
+  weightMinInput.placeholder = "Min Weight (kg)";
+  weightMinInput.required = true;
+  insuranceFormElement.appendChild(weightMinInput);
 
-  step2Join.classList.add("hidden");
-  step3.classList.remove("hidden");
-}
+  const weightMaxInput = document.createElement("input");
+  weightMaxInput.type = "number";
+  weightMaxInput.placeholder = "Max Weight (kg)";
+  weightMaxInput.required = true;
+  insuranceFormElement.appendChild(weightMaxInput);
 
-async function handleSubmitNumber() {
-  // const numberInput = document.getElementById(
-  //   "number-input",
-  // ) as HTMLInputElement;
-  // myNumber = parseInt(numberInput.value, 10);
+  // Gender: Dropdown
+  const genderSelect = document.createElement("select");
+  const genders = ["Male", "Female", "Other"];
+  genders.forEach((gender) => {
+    const option = document.createElement("option");
+    option.value = gender;
+    option.textContent = gender;
+    genderSelect.appendChild(option);
+  });
+  insuranceFormElement.appendChild(genderSelect);
 
-  // if (myNumber === null || isNaN(myNumber)) {
-  //   // eslint-disable-next-line no-alert
-  //   alert("Please enter a valid number.");
-  //   return;
-  // }
+  // Blood Group: Dropdown
+  const bloodGroupSelect = document.createElement("select");
+  const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  bloodGroups.forEach((bloodGroup) => {
+    const option = document.createElement("option");
+    option.value = bloodGroup;
+    option.textContent = bloodGroup;
+    bloodGroupSelect.appendChild(option);
+  });
+  insuranceFormElement.appendChild(bloodGroupSelect);
 
-  step3.classList.add("hidden");
-  step4.classList.remove("hidden");
+  // Submit Button
+  const insuranceSubmitButton = document.createElement("button");
+  insuranceSubmitButton.type = "submit";
+  insuranceSubmitButton.textContent = "Submit Insurance";
+  insuranceFormElement.appendChild(insuranceSubmitButton);
 
-  const result = await app.find_insurar_caller();
+  insuranceForm.appendChild(insuranceFormElement);
 
-  step4.classList.add("hidden");
-  step5.classList.remove("hidden");
-  resultValueElement.textContent = result.toString();
-}
+  // Create the insurance list
+  const insuranceListDiv = document.createElement("div");
+  insuranceListDiv.classList.add("insurance-list");
 
-hostBtn.addEventListener("click", handleHost);
-joinBtn.addEventListener("click", handleJoin);
-submitNumberBtn.addEventListener("click", handleSubmitNumber);
-submitInsurarBtn.addEventListener("click", async () => {
-  console.log("submitInsurarBtn clicked");
+  const insuranceListTitle = document.createElement("h3");
+  insuranceListTitle.textContent = "Insurance List";
+  insuranceListDiv.appendChild(insuranceListTitle);
 
-  const result = await app.feed_to_client_caller();
-  console.log("result: ", result);
-});
+  const insuranceList = document.createElement("ul");
+  const insuranceItems = ["Insurance 1", "Insurance 2", "Insurance 3"];
+  insuranceItems.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = item;
+    insuranceList.appendChild(listItem);
+  });
+  insuranceListDiv.appendChild(insuranceList);
+  insuranceForm.appendChild(insuranceListDiv);
 
-joinSubmitBtn.addEventListener("click", handleJoinSubmit);
+  // Create the user form div
+  const userForm = document.createElement("div");
+  userForm.id = "userForm";
+  userForm.classList.add("hidden");
 
-joinCodeInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    handleJoinSubmit();
+  const userTitle = document.createElement("h2");
+  userTitle.textContent = "User Form";
+  userForm.appendChild(userTitle);
+
+  const userFormElement = document.createElement("form");
+
+  // Age Input
+  const userAgeInput = document.createElement("input");
+  userAgeInput.type = "number";
+  userAgeInput.placeholder = "Age";
+  userAgeInput.required = true;
+  userFormElement.appendChild(userAgeInput);
+
+  // Height Input
+  const userHeightInput = document.createElement("input");
+  userHeightInput.type = "number";
+  userHeightInput.placeholder = "Height (cm)";
+  userHeightInput.required = true;
+  userFormElement.appendChild(userHeightInput);
+
+  // Weight Input
+  const userWeightInput = document.createElement("input");
+  userWeightInput.type = "number";
+  userWeightInput.placeholder = "Weight (kg)";
+  userWeightInput.required = true;
+  userFormElement.appendChild(userWeightInput);
+
+  // Gender: Dropdown
+  const userGenderSelect = document.createElement("select");
+  const userGenders = ["Male", "Female", "Other"];
+  userGenders.forEach((gender) => {
+    const option = document.createElement("option");
+    option.value = gender;
+    option.textContent = gender;
+    userGenderSelect.appendChild(option);
+  });
+  userFormElement.appendChild(userGenderSelect);
+
+  // Blood Group: Dropdown
+  const userBloodGroupSelect = document.createElement("select");
+  const userBloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  userBloodGroups.forEach((bloodGroup) => {
+    const option = document.createElement("option");
+    option.value = bloodGroup;
+    option.textContent = bloodGroup;
+    userBloodGroupSelect.appendChild(option);
+  });
+  userFormElement.appendChild(userBloodGroupSelect);
+
+  // Exercise Frequency: Dropdown
+  const exerciseFrequencySelect = document.createElement("select");
+  const exerciseFrequencies = ["Daily", "Weekly", "Monthly", "Rarely"];
+  exerciseFrequencies.forEach((frequency) => {
+    const option = document.createElement("option");
+    option.value = frequency;
+    option.textContent = frequency;
+    exerciseFrequencySelect.appendChild(option);
+  });
+  userFormElement.appendChild(exerciseFrequencySelect);
+
+  // Exercise Duration: Input (in minutes)
+  const exerciseDurationInput = document.createElement("input");
+  exerciseDurationInput.type = "number";
+  exerciseDurationInput.placeholder = "Exercise Duration (min)";
+  exerciseDurationInput.required = true;
+  userFormElement.appendChild(exerciseDurationInput);
+
+  // Submit Button
+  const userSubmitButton = document.createElement("button");
+  userSubmitButton.type = "submit";
+  userSubmitButton.textContent = "Submit User";
+  userFormElement.appendChild(userSubmitButton);
+
+  userForm.appendChild(userFormElement);
+
+  // Append forms to the form container
+  formContainer.appendChild(insuranceForm);
+  formContainer.appendChild(userForm);
+
+  // Append toggle container and form container to the main container
+  container.appendChild(toggleContainer);
+  container.appendChild(formContainer);
+
+  // Append the container to the body
+  document.body.appendChild(container);
+
+    // Event listener to show Insurance form and hide User form
+    toggleInsuranceBtn.addEventListener("click", () => {
+      insuranceForm.classList.remove("hidden");
+      userForm.classList.add("hidden");
+    });
+  
+    // Event listener to show User form and hide Insurance form
+    toggleUserBtn.addEventListener("click", () => {
+      insuranceForm.classList.add("hidden");
+      userForm.classList.remove("hidden");
+    });
+  
+    // Event listener for Insurance Form submission
+    insuranceFormElement.addEventListener("submit", (event) => {
+      event.preventDefault(); // Prevent form submission
+  
+      const data = {
+        minAge: Number(ageMinInput.value),
+        maxAge: Number(ageMaxInput.value),
+        minHeight: Number(heightMinInput.value),
+        maxHeight: Number(heightMaxInput.value),
+        minWeight: Number(weightMinInput.value),
+        maxWeight: Number(weightMaxInput.value),
+        gender: genderSelect.value,
+        bloodGroup: bloodGroupSelect.value,
+      };
+      socket.emit("submitInsuranceData", data)
+
+    let resultDiv = document.getElementById("resultDiv");
+  if (!resultDiv) {
+    resultDiv = document.createElement("div");
+    resultDiv.id = "resultDiv";
+    userForm.appendChild(resultDiv);
   }
-});
+  
+  resultDiv.innerHTML = `<p>Sending insurance data...</p>`;
+  
+      alert(`Insurance Form Submitted:
+      Min Age: ${data.minAge}
+      Max Age: ${data.maxAge}
+      Min Height: ${data.minHeight} cm
+      Max Height: ${data.maxHeight} cm
+      Min Weight: ${data.minWeight} kg
+      Max Weight: ${data.maxWeight} kg
+      Gender: ${data.gender}
+      Blood Group: ${data.bloodGroup}`);
+    });
+    
+    // Event listener for User Form submission with `find_insurar`
+    userFormElement.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Prevent form submission
+  
+      const data = {
+        age: Number(userAgeInput.value),
+        height: Number(userHeightInput.value),
+        weight: Number(userWeightInput.value),
+        gender: userGenderSelect.value,
+        bloodGroup: userBloodGroupSelect.value,
+        exerciseFrequency: exerciseFrequencySelect.value,
+        exerciseDuration: Number(exerciseDurationInput.value),
+      };
+      socket.emit("submitUserData", data);
 
-numberInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    handleSubmitNumber();
-  }
-});
+      // resultDiv.innerHTML = `<p>Sending user data...</p>`;
+
+  // Listen for the server response for user data
+  socket.on("userResponse", (response) => {
+    resultDiv.innerHTML = `
+      <h3>User Response:</h3>
+      <p>${response}</p>
+    `;
+  });
+
+  
+      // Call the `find_insurar` function
+      try {
+         // Assuming `App` is your class
+         const app = new App();
+        const insurarResult = await app.find_insurar(data);
+  
+        // Dynamically display the result
+        let resultDiv = document.getElementById("resultDiv");
+        if (!resultDiv) {
+          resultDiv = document.createElement("div");
+          resultDiv.id = "resultDiv";
+          userForm.appendChild(resultDiv);
+        }
+  
+        resultDiv.innerHTML = `
+          <h3>Insurance Recommendation:</h3>
+          <p>${insurarResult}</p>
+        `;
+      } catch (error) {
+        console.error("Error finding insurar:", error);
+        alert("An error occurred while processing your insurance recommendation.");
+      }
+  
+      alert(`User Form Submitted:
+      Age: ${data.age}
+      Height: ${data.height} cm
+      Weight: ${data.weight} kg
+      Gender: ${data.gender}
+      Blood Group: ${data.bloodGroup}
+      Exercise Frequency: ${data.exerciseFrequency}
+      Exercise Duration: ${data.exerciseDuration} min`);
+    });
+  });
+
+  
