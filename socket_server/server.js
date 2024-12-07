@@ -31,6 +31,11 @@ io.on("connection", (socket) => {
   let party = socket.handshake.query.party;
   console.log("party: ", party);
 
+  if (party == "alice") {
+    console.log("Alice joined the party");
+    socket.broadcast.emit("user", "alice");
+  }
+
   let conn_id = socket.id;
 
   socket.on("message", (data) => {

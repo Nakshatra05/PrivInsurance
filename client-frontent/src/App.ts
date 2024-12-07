@@ -47,6 +47,24 @@ export default class App {
     });
   }
 
+  async listen_for_user() {
+    let socket = this.socket;
+    socket?.once("user", () => {
+      console.log("new user connected");
+
+      let insurance_profiles = {
+        min_age: 20,
+        max_age: 30,
+        min_height: 170,
+        max_height: 180,
+        min_weight: 60,
+        max_weight: 80,
+      };
+
+      this.feed_to_client(insurance_profiles);
+    });
+  }
+
   async find_insurar_caller(): Promise<number> {
     let user_health_profile = {
       age: 25,

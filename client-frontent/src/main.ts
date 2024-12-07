@@ -228,6 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
       min_weight: 60,
       max_weight: 80,
     };
+    console.log("manuel feeding to client");
+    
     app.feed_to_client(insurance_profiles);
   });
 
@@ -253,6 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await app.connect("1", "bob");
     insuranceForm.classList.remove("hidden");
     userForm.classList.add("hidden");
+    app.listen_for_user();
   });
 
   // Event listener to show User form and hide Insurance form
