@@ -1,9 +1,7 @@
-import App from './App';
-import { io } from 'socket.io-client';
-const socket = io('http://localhost:3000'); // Adjust to your server URL
+import App from "./App";
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000"); // Adjust to your server URL
 document.addEventListener("DOMContentLoaded", () => {
-  
-
   // Create container div
   const container = document.createElement("div");
   container.classList.add("container");
@@ -221,44 +219,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // Append the container to the body
   document.body.appendChild(container);
 
-    // Event listener to show Insurance form and hide User form
-    toggleInsuranceBtn.addEventListener("click", () => {
-      insuranceForm.classList.remove("hidden");
-      userForm.classList.add("hidden");
-    });
-  
-    // Event listener to show User form and hide Insurance form
-    toggleUserBtn.addEventListener("click", () => {
-      insuranceForm.classList.add("hidden");
-      userForm.classList.remove("hidden");
-    });
-  
-    // Event listener for Insurance Form submission
-    insuranceFormElement.addEventListener("submit", (event) => {
-      event.preventDefault(); // Prevent form submission
-  
-      const data = {
-        minAge: Number(ageMinInput.value),
-        maxAge: Number(ageMaxInput.value),
-        minHeight: Number(heightMinInput.value),
-        maxHeight: Number(heightMaxInput.value),
-        minWeight: Number(weightMinInput.value),
-        maxWeight: Number(weightMaxInput.value),
-        gender: genderSelect.value,
-        bloodGroup: bloodGroupSelect.value,
-      };
-      socket.emit("submitInsuranceData", data)
+  // Event listener to show Insurance form and hide User form
+  toggleInsuranceBtn.addEventListener("click", () => {
+    insuranceForm.classList.remove("hidden");
+    userForm.classList.add("hidden");
+  });
+
+  // Event listener to show User form and hide Insurance form
+  toggleUserBtn.addEventListener("click", () => {
+    insuranceForm.classList.add("hidden");
+    userForm.classList.remove("hidden");
+  });
+
+  // Event listener for Insurance Form submission
+  insuranceFormElement.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent form submission
+
+    const data = {
+      minAge: Number(ageMinInput.value),
+      maxAge: Number(ageMaxInput.value),
+      minHeight: Number(heightMinInput.value),
+      maxHeight: Number(heightMaxInput.value),
+      minWeight: Number(weightMinInput.value),
+      maxWeight: Number(weightMaxInput.value),
+      gender: genderSelect.value,
+      bloodGroup: bloodGroupSelect.value,
+    };
+    socket.emit("submitInsuranceData", data);
 
     let resultDiv = document.getElementById("resultDiv");
-  if (!resultDiv) {
-    resultDiv = document.createElement("div");
-    resultDiv.id = "resultDiv";
-    userForm.appendChild(resultDiv);
-  }
-  
-  resultDiv.innerHTML = `<p>Sending insurance data...</p>`;
-  
-      alert(`Insurance Form Submitted:
+    if (!resultDiv) {
+      resultDiv = document.createElement("div");
+      resultDiv.id = "resultDiv";
+      userForm.appendChild(resultDiv);
+    }
+
+    resultDiv.innerHTML = `<p>Sending insurance data...</p>`;
+
+    alert(`Insurance Form Submitted:
       Min Age: ${data.minAge}
       Max Age: ${data.maxAge}
       Min Height: ${data.minHeight} cm
@@ -267,58 +265,60 @@ document.addEventListener("DOMContentLoaded", () => {
       Max Weight: ${data.maxWeight} kg
       Gender: ${data.gender}
       Blood Group: ${data.bloodGroup}`);
-    });
-    
-    // Event listener for User Form submission with `find_insurar`
-    userFormElement.addEventListener("submit", async (event) => {
-      event.preventDefault(); // Prevent form submission
-  
-      const data = {
-        age: Number(userAgeInput.value),
-        height: Number(userHeightInput.value),
-        weight: Number(userWeightInput.value),
-        gender: userGenderSelect.value,
-        bloodGroup: userBloodGroupSelect.value,
-        exerciseFrequency: exerciseFrequencySelect.value,
-        exerciseDuration: Number(exerciseDurationInput.value),
-      };
-      socket.emit("submitUserData", data);
+  });
 
-      // resultDiv.innerHTML = `<p>Sending user data...</p>`;
+  // Event listener for User Form submission with `find_insurar`
+  userFormElement.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent form submission
 
-  // Listen for the server response for user data
-  socket.on("userResponse", (response) => {
-    resultDiv.innerHTML = `
+    const data = {
+      age: Number(userAgeInput.value),
+      height: Number(userHeightInput.value),
+      weight: Number(userWeightInput.value),
+      gender: userGenderSelect.value,
+      bloodGroup: userBloodGroupSelect.value,
+      exerciseFrequency: exerciseFrequencySelect.value,
+      exerciseDuration: Number(exerciseDurationInput.value),
+    };
+    socket.emit("submitUserData", data);
+
+    // resultDiv.innerHTML = `<p>Sending user data...</p>`;
+
+    // Listen for the server response for user data
+    socket.on("userResponse", (response) => {
+      let resultDiv = document.getElementById("resultDiv") as HTMLDivElement;
+      resultDiv.innerHTML = `
       <h3>User Response:</h3>
       <p>${response}</p>
     `;
-  });
+    });
 
-  
-      // Call the `find_insurar` function
-      try {
-         // Assuming `App` is your class
-         const app = new App();
-        const insurarResult = await app.find_insurar(data);
-  
-        // Dynamically display the result
-        let resultDiv = document.getElementById("resultDiv");
-        if (!resultDiv) {
-          resultDiv = document.createElement("div");
-          resultDiv.id = "resultDiv";
-          userForm.appendChild(resultDiv);
-        }
-  
-        resultDiv.innerHTML = `
+    // Call the `find_insurar` function
+    try {
+      // Assuming `App` is your class
+      const app = new App();
+      const insurarResult = await app.find_insurar(data);
+
+      // Dynamically display the result
+      let resultDiv = document.getElementById("resultDiv");
+      if (!resultDiv) {
+        resultDiv = document.createElement("div");
+        resultDiv.id = "resultDiv";
+        userForm.appendChild(resultDiv);
+      }
+
+      resultDiv.innerHTML = `
           <h3>Insurance Recommendation:</h3>
           <p>${insurarResult}</p>
         `;
-      } catch (error) {
-        console.error("Error finding insurar:", error);
-        alert("An error occurred while processing your insurance recommendation.");
-      }
-  
-      alert(`User Form Submitted:
+    } catch (error) {
+      console.error("Error finding insurar:", error);
+      alert(
+        "An error occurred while processing your insurance recommendation.",
+      );
+    }
+
+    alert(`User Form Submitted:
       Age: ${data.age}
       Height: ${data.height} cm
       Weight: ${data.weight} kg
@@ -326,7 +326,5 @@ document.addEventListener("DOMContentLoaded", () => {
       Blood Group: ${data.bloodGroup}
       Exercise Frequency: ${data.exerciseFrequency}
       Exercise Duration: ${data.exerciseDuration} min`);
-    });
   });
-
-  
+});
