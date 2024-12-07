@@ -80,7 +80,12 @@ export default class App {
       socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
-    this.msgQueue.stream((msg: unknown) => {
+    this.msgQueue.stream((msg: any) => {
+      console.log("msg: ", msg);
+      // const uint8Array = new Uint8Array(msg);
+      msg = new Uint8Array(msg);
+      console.log("msg: ", msg);
+      
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
       }
@@ -139,7 +144,9 @@ export default class App {
       socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
-    this.msgQueue.stream((msg: unknown) => {
+    this.msgQueue.stream((msg: any) => {
+      msg = new Uint8Array(msg);
+      console.log("msg: ", msg);
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
       }
