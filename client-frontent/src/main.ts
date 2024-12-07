@@ -211,10 +211,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let user_health_profile = {
       age: 25,
-      height: 180,
+      height: 175,
       weight: 70,
     };
-    app.find_insurar(user_health_profile);
+    let final_res = await app.find_insurar(user_health_profile);
+    console.log("final_res: ", final_res);
   });
 
   insuranceSubmitButton.addEventListener("click", async () => {
@@ -250,12 +251,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Event listener to show Insurance form and hide User form
   toggleInsuranceBtn.addEventListener("click", async () => {
+    console.log("insurance button clicked");
+
     // insurance
     // connect
     insuranceForm.classList.remove("hidden");
     userForm.classList.add("hidden");
     await app.connect("1", "bob");
-    app.listen_for_user();
+    console.log("connected");
+
+    await app.listen_for_user();
   });
 
   // Event listener to show User form and hide Insurance form
@@ -265,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     insuranceForm.classList.add("hidden");
     userForm.classList.remove("hidden");
     await app.connect("0", "alice");
+    app.listen_for_policy_no();
   });
 
   insuranceFormElement.addEventListener("submit", (event) => {

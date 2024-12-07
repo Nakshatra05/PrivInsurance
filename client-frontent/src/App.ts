@@ -15,6 +15,25 @@ import generateProtocol from "./generateProtocol";
 export default class App {
   socket?: Socket; // Replace RtcPairSocket with Socket from socket.io
   party?: "alice" | "bob";
+  insurance_profiles = [
+    // {
+    //   min_age: 30,
+    //   max_age: 40,
+    //   min_height: 170,
+    //   max_height: 180,
+    //   min_weight: 60,
+    //   max_weight: 80,
+    // },
+    {
+      min_age: 20,
+      max_age: 30,
+      min_height: 170,
+      max_height: 180,
+      min_weight: 60,
+      max_weight: 80,
+    },
+  ];
+  no_of_policy = 0;
 
   msgQueue = new AsyncQueue<unknown>();
 
@@ -47,41 +66,49 @@ export default class App {
     });
   }
 
-  async listen_for_user() {
-    let socket = this.socket;
-    socket?.once("user", () => {
-      console.log("new user connected");
-
-      let insurance_profiles = {
-        min_age: 20,
-        max_age: 30,
-        min_height: 170,
-        max_height: 180,
-        min_weight: 60,
-        max_weight: 80,
-      };
-
-      this.feed_to_client(insurance_profiles);
+  async listen_for_policy_no() {
+    this.socket?.on("no_of_policy", (no_of_policy: number) => {
+      console.log("got no_of_policy: ", no_of_policy);
+      this.no_of_policy = no_of_policy;
     });
   }
 
-  async find_insurar_caller(): Promise<number> {
-    let user_health_profile = {
-      age: 25,
-      height: 180,
-      weight: 70,
-    };
+  async listen_for_user() {
+    console.log("listening for user");
 
-    console.log("finding insurar for user_health_profile", user_health_profile);
+    let socket = this.socket;
+    socket?.once("user", () => {
+      console.log("new user connected");
+      // this.insurance_profiles.push( )
 
-    return await this.find_insurar(user_health_profile);
+      socket.emit("no_of_policy", this.insurance_profiles.length);
+
+      socket.on("match_policy", async (policy_index: number) => {
+        console.log("match_policy index: ", policy_index);
+        await this.feed_to_client(this.insurance_profiles[policy_index]);
+      });
+    });
   }
+
+  // async find_insurar_caller(): Promise<number> {
+  //   let user_health_profile = {
+  //     age: 25,
+  //     height: 180,
+  //     weight: 70,
+  //   };
+
+  //   console.log("finding insurar for user_health_profile", user_health_profile);
+
+  //   return await this.find_insurar(user_health_profile);
+  // }
 
   async find_insurar(values: {
     age: number;
     height: number;
     weight: number;
-  }): Promise<number> {
+  }): Promise<number[]> {
+    console.log("find_insurar");
+
     const { party, socket } = this;
 
     assert(party !== undefined, "Party must be set");
@@ -90,19 +117,46 @@ export default class App {
     const input = values;
     const otherParty = party === "alice" ? "bob" : "alice";
 
+    let matched_insurers: number[] = [];
+
+    let no_of_policy = this.no_of_policy;
+
+    console.log("iterating over policies, no: ", no_of_policy);
+    for (let i = 0; i < no_of_policy; i++) {
+      console.log("sending match_policy: ", i);
+      await this.socket?.emit("match_policy", i);
+      console.log("sent match_policy: ", i);
+      if (await this.insurance_matcher(party, otherParty, input)) {
+        console.log("Policy matched");
+        matched_insurers.push(i);
+      }
+    }
+
+    console.log("matched_insurers: ", matched_insurers);
+
+    return matched_insurers;
+  }
+
+  async insurance_matcher(
+    party: "alice" | "bob",
+    otherParty: "alice" | "bob",
+    input: any,
+  ): Promise<number> {
+    console.log("insurance_matcher");
+
     const protocol = await generateProtocol();
 
     const session = protocol.join(party, input, (to, msg) => {
       assert(to === otherParty, "Unexpected party");
 
-      socket?.emit("message", msg); // Use socket.emit to send the message
+      this.socket?.emit("message", msg); // Use socket.emit to send the message
     });
 
     this.msgQueue.stream((msg: any) => {
-      console.log("msg: ", msg);
+      // console.log("msg: ", msg);
       // const uint8Array = new Uint8Array(msg);
       msg = new Uint8Array(msg);
-      console.log("msg: ", msg);
+      // console.log("msg: ", msg);
 
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
@@ -121,6 +175,8 @@ export default class App {
     ) {
       throw new Error("Unexpected output");
     }
+
+    console.log("insurance_matcher::output: ", output);
 
     return output.main;
   }
@@ -164,7 +220,6 @@ export default class App {
 
     this.msgQueue.stream((msg: any) => {
       msg = new Uint8Array(msg);
-      console.log("msg: ", msg);
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
       }

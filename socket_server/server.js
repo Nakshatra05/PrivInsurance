@@ -40,9 +40,23 @@ io.on("connection", (socket) => {
 
   socket.on("message", (data) => {
     console.log("Received user data:", data);
-
     socket.broadcast.emit("message", data);
   });
+
+  socket.on("no_of_policy", (data) => {
+    console.log("no_of_policy :", data);
+    socket.broadcast.emit("no_of_policy", data);
+  });
+
+
+  socket.on("match_policy", (policy_index) => {
+    console.log("match_policy (policy_index) :", policy_index);
+    socket.broadcast.emit("match_policy", policy_index);
+  });
+
+  
+
+  
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
