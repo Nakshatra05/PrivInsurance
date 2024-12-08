@@ -1,5 +1,3 @@
-# Multi-party computation and Zero-knowledge proof matching
-
 # **PrivInsure**
 
 **PrivInsure** is a privacy-preserving application that leverages Multi-Party Computation (MPC) to allow individuals to determine their eligibility for insurance policies without revealing their personal health data or the insurer's policy requirements. Using cutting-edge cryptographic techniques, **PrivInsure** ensures that both parties can securely compute the eligibility criteria while maintaining full confidentiality.
