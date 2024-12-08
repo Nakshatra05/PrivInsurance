@@ -80,7 +80,7 @@ Follow the steps below to set up and run **PrivInsure** locally.
    node server.js
    ```
 
-4. Run the frontedn in another terminal:
+5. Run the frontend in another terminal:
 
    ```bash
    cd client-frontend
