@@ -99,10 +99,8 @@ export default class App {
     });
 
     this.msgQueue.stream((msg: any) => {
-      console.log("msg: ", msg);
       // const uint8Array = new Uint8Array(msg);
       msg = new Uint8Array(msg);
-      console.log("msg: ", msg);
 
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
@@ -164,7 +162,6 @@ export default class App {
 
     this.msgQueue.stream((msg: any) => {
       msg = new Uint8Array(msg);
-      console.log("msg: ", msg);
       if (!(msg instanceof Uint8Array)) {
         throw new Error("Unexpected message type");
       }
