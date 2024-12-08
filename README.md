@@ -56,7 +56,7 @@ Follow the steps below to set up and run **PrivInsure** locally.
 2. Install the required dependencies for frontend:
 
    ```bash
-   cd frontend
+   cd client-frontend
    npm install
    # or
    yarn install
