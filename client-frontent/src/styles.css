@@ -1,6 +1,8 @@
+/* General Body Styling */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7fc;
+  background-color: #000000; /* Black background */
+  color: #f7b500; /* Yellow text */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,6 +10,7 @@ body {
   margin: 0;
 }
 
+/* Main Container Styling */
 .container {
   display: flex;
   flex-direction: column;
@@ -15,25 +18,29 @@ body {
   max-width: 1300px;
   border-radius: 15px;
   padding: 40px;
-  background: #fff;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  background: #222222; /* Dark Gray background */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
 }
 
+/* Hover effect for the container */
 .container:hover {
   transform: scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
+/* Toggle Button Container */
 .toggle-container {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
 }
 
+/* Toggle Button Styling */
 .toggle-button {
   padding: 12px 30px;
-  background-color: #4e73df;
-  color: white;
+  background-color: #f7b500; /* Yellow background */
+  color: #000000; /* Black text */
   border: none;
   cursor: pointer;
   border-radius: 8px;
@@ -42,50 +49,55 @@ body {
   transition: background-color 0.3s ease;
 }
 
+/* Hover effect for toggle buttons */
 .toggle-button:hover {
-  background-color: #2e59d9;
+  background-color: #f5a900; /* Darker Yellow */
 }
 
+/* Focus effect for buttons */
 .toggle-button:focus {
   outline: none;
 }
 
+/* Form Container Styling */
 .form-container {
   flex-grow: 1;
-}
-
-.form-container > form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 20px;
+  background-color: #333333; /* Dark Gray background */
   border-radius: 10px;
-  background: #fafafa;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Form input fields */
 form input[type="number"],
 form select {
   padding: 12px;
   margin: 8px 0;
-  border: 1px solid #ddd;
+  border: 1px solid #f7b500; /* Yellow border */
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
+  background-color: #222222; /* Dark background */
+  color: #f7b500; /* Yellow text */
 }
 
+/* Focus effect for input fields */
 form input[type="number"]:focus,
 form select:focus {
-  border-color: #4e73df;
-  box-shadow: 0 0 5px rgba(78, 115, 223, 0.6);
+  border-color: #f7b500;
+  box-shadow: 0 0 5px rgba(247, 181, 0, 0.6); /* Yellow glow on focus */
+  background-color: #333333; /* Slightly lighter background */
 }
 
+/* Insurance List Styling */
 .insurance-list {
   margin-top: 25px;
   padding: 15px;
   border-radius: 10px;
-  background: #f9fafb;
-  border: 1px solid #e0e0e0;
+  background: #444444; /* Darker background */
+  border: 1px solid #f7b500; /* Yellow border */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -98,43 +110,42 @@ form select:focus {
 .insurance-list li {
   padding: 10px 0;
   font-size: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #f7b500; /* Yellow border */
   transition: background-color 0.3s ease;
 }
 
+/* Hover effect for list items */
 .insurance-list li:last-child {
   border-bottom: none;
 }
 
 .insurance-list li:hover {
-  background-color: #f0f7ff;
+  background-color: #666666; /* Lighter gray on hover */
 }
 
+/* Hidden class */
 .hidden {
   display: none;
 }
 
-h2 {
+/* Header Styles */
+h2, h3 {
+  color: #f7b500; /* Yellow text */
   font-size: 24px;
-  color: #333;
   margin-bottom: 20px;
 }
 
 h3 {
   font-size: 20px;
-  color: #444;
+  color: #f7b500; /* Yellow text */
   margin-bottom: 15px;
 }
 
-input[type="number"],
-select {
-  font-size: 16px;
-}
-
+/* Button Styling for Submit */
 button[type="submit"] {
   padding: 12px 30px;
-  background-color: #28a745;
-  color: white;
+  background-color: #f7b500; /* Yellow background */
+  color: #000000; /* Black text */
   border: none;
   cursor: pointer;
   border-radius: 8px;
@@ -142,17 +153,20 @@ button[type="submit"] {
   transition: background-color 0.3s ease;
 }
 
+/* Hover effect for submit button */
 button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #f5a900; /* Darker Yellow */
 }
 
+/* Focus effect for submit button */
 button[type="submit"]:focus {
   outline: none;
 }
+
 /* Style for the insurance form */
 #insuranceForm {
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color: #333333; /* Dark background */
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -161,11 +175,11 @@ button[type="submit"]:focus {
 .insurance-option-button {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 12px;
+  margin: 12px 0;
   font-size: 16px;
   color: white;
-  background-color: #007bff;
+  background-color: #000000; /* Black background */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -174,34 +188,46 @@ button[type="submit"]:focus {
     transform 0.2s ease;
 }
 
+/* Hover effect for insurance option buttons */
 .insurance-option-button:hover {
-  background-color: #0056b3;
+  background-color: #333333; /* Darker Black */
   transform: scale(1.05);
 }
 
+/* Active effect for insurance option buttons */
 .insurance-option-button:active {
-  background-color: #003f7f;
+  background-color: #111111; /* Even darker black */
 }
 
-/* Add some space and a subtle effect on the form container */
+/* Form container styling for Insurance */
 .form-container {
   padding: 20px;
   display: flex;
   flex-direction: column;
 }
 
-/* Styling for the toggle buttons */
+/* Styling for the toggle buttons (User and Insurance) */
 .toggle-button {
   padding: 10px;
   margin: 5px;
   font-size: 16px;
-  background-color: #28a745;
-  color: white;
+  background-color: #f7b500; /* Yellow color */
+  color: #000000; /* Black text */
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .toggle-button:hover {
-  background-color: #218838;
+  background-color: #f5a900; /* Darker Yellow */
+}
+
+/* Global Styling for Links (If needed) */
+a {
+  color: #f7b500; /* Yellow links */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
