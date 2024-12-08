@@ -133,12 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Insurance submit button clicked");
 
     const insurance_profiles = {
-      minAge: Number(ageMinInput.value),
-      maxAge: Number(ageMaxInput.value),
-      minHeight: Number(heightMinInput.value),
-      maxHeight: Number(heightMaxInput.value),
-      minWeight: Number(weightMinInput.value),
-      maxWeight: Number(weightMaxInput.value),
+      min_age: Number(ageMinInput.value),
+      max_age: Number(ageMaxInput.value),
+      min_height: Number(heightMinInput.value),
+      max_height: Number(heightMaxInput.value),
+      min_weight: Number(weightMinInput.value),
+      max_weight: Number(weightMaxInput.value),
     };
     console.log(insurance_profiles);
 

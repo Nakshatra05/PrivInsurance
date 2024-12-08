@@ -127,21 +127,21 @@ export default class App {
   }
 
   async feed_to_client_caller(values: {
-    minAge: number;
-    maxAge: number;
-    minHeight: number;
-    maxHeight: number;
-    minWeight: number;
-    maxWeight: number;
+    min_age: number;
+    max_age: number;
+    min_height: number;
+    max_height: number;
+    min_weight: number;
+    max_weight: number;
   }): Promise<number> {
     // Make sure you are consistent with naming (camelCase here)
     const insuranceProfiles = {
-      minAge: values.minAge,
-      maxAge: values.maxAge,
-      minHeight: values.minHeight,
-      maxHeight: values.maxHeight,
-      minWeight: values.minWeight,
-      maxWeight: values.maxWeight,
+      min_age: values.min_age,
+      max_age: values.max_age,
+      min_height: values.min_height,
+      max_height: values.max_height,
+      min_weight: values.min_weight,
+      max_weight: values.max_weight,
     };
   
     console.log("Feeding insurance profiles:", insuranceProfiles);
