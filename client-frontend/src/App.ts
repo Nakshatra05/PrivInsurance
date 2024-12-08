@@ -63,9 +63,9 @@ export default class App {
         max_weight: 80,
       };
 
-      if (!this.is_insurar_set) {
-        this.feed_to_client(insurance_profiles);
-      }
+      // if (!this.is_insurar_set) {
+      //   this.feed_to_client(insurance_profiles);
+      // }
     });
   }
 
