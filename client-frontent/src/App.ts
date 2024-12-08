@@ -65,17 +65,20 @@ export default class App {
     });
   }
 
-  async find_insurar_caller(): Promise<number> {
-    let user_health_profile = {
-      age: 25,
-      height: 180,
-      weight: 70,
+  async find_insurar_caller(values: { age: number; height: number; weight: number }): Promise<number> {
+    // Validate and transform the input values if needed
+    const user_health_profile = {
+      age: values.age,
+      height: values.height,
+      weight: values.weight,
     };
-
-    console.log("finding insurar for user_health_profile", user_health_profile);
-
+  
+    console.log("Finding insurer for user_health_profile", user_health_profile);
+  
+    // Call the find_insurar method with the user_health_profile
     return await this.find_insurar(user_health_profile);
   }
+  
 
   async find_insurar(values: {
     age: number;

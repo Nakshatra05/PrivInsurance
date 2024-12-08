@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     option.textContent = gender;
     userGenderSelect.appendChild(option);
   });
-  userFormElement.appendChild(userGenderSelect);
+ // userFormElement.appendChild(userGenderSelect);
 
   // Blood Group: Dropdown
   const userBloodGroupSelect = document.createElement("select");
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     option.textContent = bloodGroup;
     userBloodGroupSelect.appendChild(option);
   });
-  userFormElement.appendChild(userBloodGroupSelect);
+ // userFormElement.appendChild(userBloodGroupSelect);
 
   // Exercise Frequency: Dropdown
   const exerciseFrequencySelect = document.createElement("select");
@@ -191,14 +191,14 @@ document.addEventListener("DOMContentLoaded", () => {
     option.textContent = frequency;
     exerciseFrequencySelect.appendChild(option);
   });
-  userFormElement.appendChild(exerciseFrequencySelect);
+ // userFormElement.appendChild(exerciseFrequencySelect);
 
   // Exercise Duration: Input (in minutes)
   const exerciseDurationInput = document.createElement("input");
   exerciseDurationInput.type = "number";
   exerciseDurationInput.placeholder = "Exercise Duration (min)";
   // exerciseDurationInput.required = true;
-  userFormElement.appendChild(exerciseDurationInput);
+  //userFormElement.appendChild(exerciseDurationInput);
 
   // Submit Button
   const userSubmitButton = document.createElement("button");
@@ -207,28 +207,28 @@ document.addEventListener("DOMContentLoaded", () => {
   userFormElement.appendChild(userSubmitButton);
 
   userSubmitButton.addEventListener("click", async () => {
-    // trigger mpc call
-
-    let user_health_profile = {
-      age: 25,
-      height: 180,
-      weight: 70,
+     const user_health_profile = {
+      age: Number(userAgeInput.value),
+      height: Number(userHeightInput.value),
+      weight: Number(userWeightInput.value),
+     
     };
-    app.find_insurar(user_health_profile);
-  });
 
-  insuranceSubmitButton.addEventListener("click", async () => {
+    app.find_insurar(user_health_profile);
+    console.log("user data sent to algo",user_health_profile);
+  });
+insuranceSubmitButton.addEventListener("click", async () => {
     console.log("insurance submit button clicked");
 
     let insurance_profiles = {
-      min_age: 20,
-      max_age: 30,
-      min_height: 170,
-      max_height: 180,
-      min_weight: 60,
-      max_weight: 80,
+      minAge: Number(ageMinInput.value),
+      maxAge: Number(ageMaxInput.value),
+      minHeight: Number(heightMinInput.value),
+      maxHeight: Number(heightMaxInput.value),
+      minWeight: Number(weightMinInput.value),
+      maxWeight: Number(weightMaxInput.value),
     };
-    console.log("manuel feeding to client");
+    console.log(insurance_profiles);
 
     app.feed_to_client(insurance_profiles);
   });
