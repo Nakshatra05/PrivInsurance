@@ -49,7 +49,7 @@ Follow the steps below to set up and run **PrivInsure** locally.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/PrivInsure.git
+   git clone https://github.com/Nakshatra05/PrivInsure.git
    cd PrivInsure
    ```
 
