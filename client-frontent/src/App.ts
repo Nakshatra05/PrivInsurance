@@ -16,6 +16,8 @@ export default class App {
   socket?: Socket; // Replace RtcPairSocket with Socket from socket.io
   party?: "alice" | "bob";
 
+  is_insurar_set = false;
+
   msgQueue = new AsyncQueue<unknown>();
 
   generateJoiningCode() {
@@ -61,7 +63,9 @@ export default class App {
         max_weight: 80,
       };
 
-      this.feed_to_client(insurance_profiles);
+      if (!this.is_insurar_set) {
+        this.feed_to_client(insurance_profiles);
+      }
     });
   }
 
@@ -143,6 +147,8 @@ export default class App {
       min_weight: values.min_weight,
       max_weight: values.max_weight,
     };
+
+    this.is_insurar_set = true;
   
     console.log("Feeding insurance profiles:", insuranceProfiles);
   
