@@ -53,25 +53,42 @@ Follow the steps below to set up and run **PrivInsure** locally.
    cd PrivInsure
    ```
 
-2. Install the required dependencies:
+2. Install the required dependencies for frontend:
 
    ```bash
+   cd frontend
    npm install
    # or
    yarn install
+   cd ..
    ```
 
-3. Set up the MPC framework:
-
-   Follow the official [mpc-framework documentation](https://github.com/your-username/mpc-framework) for installation and setup instructions.
-
-4. Run the application:
+3. Install the required dependencies for backend:
 
    ```bash
-   npm start
+   cd socket_server
+   npm install
    # or
-   yarn start
+   yarn install
+   cd ..
    ```
+
+4. Run the backend in one terminal:
+
+   ```bash
+   cd socket_server
+   node server.js
+   ```
+
+4. Run the frontedn in another terminal:
+
+   ```bash
+   cd client-frontend
+   npm run dev
+   #or
+   yarn dev  
+   ```
+
 
    This will start a local development server at `http://localhost:3000`.
 
