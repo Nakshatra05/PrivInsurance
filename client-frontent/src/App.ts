@@ -69,20 +69,23 @@ export default class App {
     });
   }
 
-  async find_insurar_caller(values: { age: number; height: number; weight: number }): Promise<number> {
+  async find_insurar_caller(values: {
+    age: number;
+    height: number;
+    weight: number;
+  }): Promise<number> {
     // Validate and transform the input values if needed
     const user_health_profile = {
       age: values.age,
       height: values.height,
       weight: values.weight,
     };
-  
+
     console.log("Finding insurer for user_health_profile", user_health_profile);
-  
+
     // Call the find_insurar method with the user_health_profile
     return await this.find_insurar(user_health_profile);
   }
-  
 
   async find_insurar(values: {
     age: number;
@@ -118,7 +121,7 @@ export default class App {
 
     const output = await session.output();
     console.log("output: ", output);
-    alert("The data is output ",output);
+    alert("The data is output " + output.main);
     if (
       output === null ||
       typeof output !== "object" ||
@@ -149,13 +152,12 @@ export default class App {
     };
 
     this.is_insurar_set = true;
-  
+
     console.log("Feeding insurance profiles:", insuranceProfiles);
-  
+
     // Now calling the feed_to_client function
     return await this.feed_to_client(insuranceProfiles);
   }
-  
 
   async feed_to_client(values: {
     min_age: number;

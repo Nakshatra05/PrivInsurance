@@ -1,5 +1,5 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f7fc;
   display: flex;
   justify-content: center;
@@ -169,7 +169,9 @@ button[type="submit"]:focus {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .insurance-option-button:hover {

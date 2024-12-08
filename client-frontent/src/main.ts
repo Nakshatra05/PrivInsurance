@@ -184,52 +184,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add three customized insurance options
   // Add three customized insurance options
-const insuranceOptions = [
-  {
-    name: "Basic Health Plan",
-    min_age: 18,
-    max_age: 60,
-    min_height: 150,
-    max_height: 190,
-    min_weight: 40,
-    max_weight: 100,
-  },
-  {
-    name: "Premium Health Plan",
-    min_age: 21,
-    max_age: 65,
-    min_height: 160,
-    max_height: 200,
-    min_weight: 50,
-    max_weight: 120,
-  },
-  {
-    name: "Family Health Plan",
-    min_age: 30,
-    max_age: 70,
-    min_height: 155,
-    max_height: 185,
-    min_weight: 45,
-    max_weight: 110,
-  },
-];
+  const insuranceOptions = [
+    {
+      name: "Basic Health Plan",
+      min_age: 18,
+      max_age: 60,
+      min_height: 150,
+      max_height: 190,
+      min_weight: 40,
+      max_weight: 100,
+    },
+    {
+      name: "Premium Health Plan",
+      min_age: 21,
+      max_age: 65,
+      min_height: 160,
+      max_height: 200,
+      min_weight: 50,
+      max_weight: 120,
+    },
+    {
+      name: "Family Health Plan",
+      min_age: 30,
+      max_age: 70,
+      min_height: 155,
+      max_height: 185,
+      min_weight: 45,
+      max_weight: 110,
+    },
+  ];
 
-// Create buttons for each insurance plan
-insuranceOptions.forEach((option) => {
-  const insuranceOptionBtn = document.createElement("button");
-  insuranceOptionBtn.textContent = option.name;
-  insuranceOptionBtn.classList.add("insurance-option-button");
+  // Create buttons for each insurance plan
+  insuranceOptions.forEach((option) => {
+    const insuranceOptionBtn = document.createElement("button");
+    insuranceOptionBtn.textContent = option.name;
+    insuranceOptionBtn.classList.add("insurance-option-button");
 
-  insuranceOptionBtn.addEventListener("click", () => {
-    ageMinInput.value = option.min_age;
-    ageMaxInput.value = option.max_age;
-    heightMinInput.value = option.min_height;
-    heightMaxInput.value = option.max_height;
-    weightMinInput.value = option.min_weight;
-    weightMaxInput.value = option.max_weight;
+    insuranceOptionBtn.addEventListener("click", () => {
+      ageMinInput.value = option.min_age.toString();
+      ageMaxInput.value = option.max_age.toString();
+      heightMinInput.value = option.min_height.toString();
+      heightMaxInput.value = option.max_height.toString();
+      weightMinInput.value = option.min_weight.toString();
+      weightMaxInput.value = option.max_weight.toString();
+    });
+
+    insuranceForm.appendChild(insuranceOptionBtn);
   });
-
-  insuranceForm.appendChild(insuranceOptionBtn);
-});
-
 });
