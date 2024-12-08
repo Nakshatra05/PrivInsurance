@@ -114,7 +114,7 @@ export default class App {
 
     const output = await session.output();
     console.log("output: ", output);
-
+    alert("The data is output ",output);
     if (
       output === null ||
       typeof output !== "object" ||

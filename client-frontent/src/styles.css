@@ -149,3 +149,57 @@ button[type="submit"]:hover {
 button[type="submit"]:focus {
   outline: none;
 }
+/* Style for the insurance form */
+#insuranceForm {
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the insurance plan buttons */
+.insurance-option-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.insurance-option-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.insurance-option-button:active {
+  background-color: #003f7f;
+}
+
+/* Add some space and a subtle effect on the form container */
+.form-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styling for the toggle buttons */
+.toggle-button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background-color: #218838;
+}

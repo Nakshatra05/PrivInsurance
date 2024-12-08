@@ -1,7 +1,6 @@
 import App from "./App";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Create container div
   const container = document.createElement("div");
   container.classList.add("container");
 
@@ -124,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
       weight: Number(userWeightInput.value),
     };
 
-    app.find_insurar(user_health_profile);
+    app.find_insurar_caller(user_health_profile);
     console.log("User data sent to algorithm", user_health_profile);
   });
 
@@ -182,4 +181,55 @@ document.addEventListener("DOMContentLoaded", () => {
   userFormElement.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form submission
   });
+
+  // Add three customized insurance options
+  // Add three customized insurance options
+const insuranceOptions = [
+  {
+    name: "Basic Health Plan",
+    min_age: 18,
+    max_age: 60,
+    min_height: 150,
+    max_height: 190,
+    min_weight: 40,
+    max_weight: 100,
+  },
+  {
+    name: "Premium Health Plan",
+    min_age: 21,
+    max_age: 65,
+    min_height: 160,
+    max_height: 200,
+    min_weight: 50,
+    max_weight: 120,
+  },
+  {
+    name: "Family Health Plan",
+    min_age: 30,
+    max_age: 70,
+    min_height: 155,
+    max_height: 185,
+    min_weight: 45,
+    max_weight: 110,
+  },
+];
+
+// Create buttons for each insurance plan
+insuranceOptions.forEach((option) => {
+  const insuranceOptionBtn = document.createElement("button");
+  insuranceOptionBtn.textContent = option.name;
+  insuranceOptionBtn.classList.add("insurance-option-button");
+
+  insuranceOptionBtn.addEventListener("click", () => {
+    ageMinInput.value = option.min_age;
+    ageMaxInput.value = option.max_age;
+    heightMinInput.value = option.min_height;
+    heightMaxInput.value = option.max_height;
+    weightMinInput.value = option.min_weight;
+    weightMaxInput.value = option.max_weight;
+  });
+
+  insuranceForm.appendChild(insuranceOptionBtn);
+});
+
 });
