@@ -1,5 +1,6 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,16 +10,44 @@ body {
 
 .container {
   display: flex;
-  width: 80%;
-  max-width: 1200px;
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  width: 90%;
+  max-width: 1300px;
+  border-radius: 15px;
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.container:hover {
+  transform: scale(1.02);
 }
 
 .toggle-container {
-  margin-right: 20px;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.toggle-button {
+  padding: 12px 30px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: #2e59d9;
+}
+
+.toggle-button:focus {
+  outline: none;
 }
 
 .form-container {
@@ -28,52 +57,95 @@ body {
 .form-container > form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fafafa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+form input[type="number"],
+form select {
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+form input[type="number"]:focus,
+form select:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 5px rgba(78, 115, 223, 0.6);
 }
 
 .insurance-list {
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f9fafb;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .insurance-list ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .insurance-list li {
-  padding: 8px 0;
+  padding: 10px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
 }
 
-.toggle-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+.insurance-list li:last-child {
+  border-bottom: none;
 }
 
-.toggle-button:focus {
-  outline: none;
+.insurance-list li:hover {
+  background-color: #f0f7ff;
 }
 
 .hidden {
   display: none;
 }
 
-/* Styling the new input fields */
-input[type="number"],
-select {
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
+h3 {
+  font-size: 20px;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+input[type="number"],
 select {
-  padding: 8px;
-  margin: 5px 0;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+button[type="submit"]:focus {
+  outline: none;
 }
