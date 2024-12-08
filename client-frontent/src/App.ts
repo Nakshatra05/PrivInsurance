@@ -126,19 +126,30 @@ export default class App {
     return output.main;
   }
 
-  async feed_to_client_caller(): Promise<number> {
-    let insurance_profiles = {
-      min_age: 20,
-      max_age: 30,
-      min_height: 170,
-      max_height: 180,
-      min_weight: 60,
-      max_weight: 80,
+  async feed_to_client_caller(values: {
+    minAge: number;
+    maxAge: number;
+    minHeight: number;
+    maxHeight: number;
+    minWeight: number;
+    maxWeight: number;
+  }): Promise<number> {
+    // Make sure you are consistent with naming (camelCase here)
+    const insuranceProfiles = {
+      minAge: values.minAge,
+      maxAge: values.maxAge,
+      minHeight: values.minHeight,
+      maxHeight: values.maxHeight,
+      minWeight: values.minWeight,
+      maxWeight: values.maxWeight,
     };
-    console.log("feeding insurance_profiles", insurance_profiles);
-
-    return await this.feed_to_client(insurance_profiles);
+  
+    console.log("Feeding insurance profiles:", insuranceProfiles);
+  
+    // Now calling the feed_to_client function
+    return await this.feed_to_client(insuranceProfiles);
   }
+  
 
   async feed_to_client(values: {
     min_age: number;
